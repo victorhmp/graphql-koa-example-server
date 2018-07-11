@@ -25,7 +25,7 @@ const graphQLServer = new Koa();
 const router = new KoaRouter();
 const bodyParser = new KoaBodyParser();
 
-// Validade GraphQL API Schema
+// Validate GraphQL API Schema
 const schema = makeExecutableSchema({ typeDefs: Schema, resolvers: Resolvers });
 
 // Use bodyparser middleware
