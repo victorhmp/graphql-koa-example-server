@@ -1,0 +1,19 @@
+# Git metadata
+.git
+.gitignore
+
+# Docker configuration files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Node stuff
+node_modules/
+
+# Documentation
+README.md
+LICENSE
+.editorconfig
+
+# Environment variables
+.env
