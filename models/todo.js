@@ -16,8 +16,9 @@ const todoSchema = new Schema({
     required: true,
     default: false
   },
-  owner_id: {
-    type: String
+  owner: {
+    type: String,
+    required: true,
   }
 });
 const Model = mongoose.model('Todo', todoSchema);

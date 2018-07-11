@@ -1,6 +1,9 @@
 const userModel = require('./user');
 const todoModel = require('./todo');
 
+userModel.remove().exec();
+todoModel.remove().exec();
+
 let user1 = new userModel({
   firstName: 'Victor',
   lastName: 'Pinto',
@@ -34,18 +37,22 @@ user4.save();
 let todo1 = new todoModel({
   title: "GraphQL Presentation",
   description: "Finish presentation! It's getting late",
+  owner: "Victor Pinto"
 });
 let todo2 = new todoModel({
   title: "I guess there's no point in giving a title to a task...",
   description: "Make better examples next time",
+  owner: "HR Wells"
 });
 let todo3 = new todoModel({
   title: "Another Todo",
   description: "Yeah... they are getting worse",
+  owner: "Victor Pinto"
 });
 let todo4 = new todoModel({
   title: "Secret App Idea...",
   description: "Do not tell people without a NDA",
+  owner: "Jennifer Wells"
 });
 
 todo1.save();
