@@ -3,7 +3,8 @@ type Query {
   user(firstName: String, lastName: String): User,
   allUsers: [User],
   allTodos: [Todo],
-  getFortuneCookie: String
+  getFortuneCookie: String,
+  getTodosByOwnerName(owner: String!): [Todo]
 }
 
 type Mutation {
@@ -18,6 +19,7 @@ type User {
   lastName: String!,
   nickname: String,
   email: String,
+  todos: [Todo]
 }
 
 type Todo {
@@ -25,6 +27,7 @@ type Todo {
   title: String,
   description: String,
   completed: Boolean,
+  owner: String!
 }
 `
 

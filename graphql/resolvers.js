@@ -25,6 +25,9 @@ const resolvers = {
     },
     allTodos: async () => {
       return (await TodoModel.find().exec());
+    },
+    getTodosByOwnerName: async (_, args) => {
+      return (await TodoModel.find({ owner: args.owner }).exec());
     }
   },
   Mutation: {
@@ -41,6 +44,7 @@ const resolvers = {
       let todo = new TodoModel({
         title: args.title,
         description: args.description,
+        owner: args.owner
       });
       return (await todo.save());
     },
