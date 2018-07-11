@@ -13,7 +13,7 @@ import Resolvers from './graphql/resolvers';
 
 // MongoDB
 const mongoose = require('./config/mongoose');
-const DB = mongoose();
+mongoose();
 
 const PORT = process.env.PORT || 8080;
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -44,3 +44,6 @@ graphQLServer.use(router.allowedMethods());
 graphQLServer.listen(PORT, () => {
   console.log(`GraphiQL is now running on http://localhost:${PORT}/graphiql`)
 });
+
+// Add some seed data to MongoDB database
+require('./models/seeds');
