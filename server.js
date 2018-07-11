@@ -8,10 +8,14 @@ import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
 
 // Schema and Resolvers
 import { makeExecutableSchema } from "graphql-tools";
-import Schema from './data/schema';
-import Resolvers from './data/resolvers';
+import Schema from './graphql/schema';
+import Resolvers from './graphql/resolvers';
 
-const PORT = process.env.PORT || 3000;
+// MongoDB
+const mongoose = require('./config/mongoose');
+const DB = mongoose();
+
+const PORT = process.env.PORT || 8080;
 const NODE_ENV = process.env.NODE_ENV || "development";
 
 const graphQLServer = new Koa();
