@@ -6,6 +6,9 @@ import KoaBodyParser from "koa-bodyparser";
 // Apollo Server for Koa
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
 
+// GraphQL Playground Middleware for Koa
+const koaPlayground = require('graphql-playground-middleware-koa').default
+
 // Schema and Resolvers
 import { makeExecutableSchema } from "graphql-tools";
 import Schema from './graphql/schema';
@@ -32,6 +35,14 @@ graphQLServer.use(bodyParser);
 router.post('/graphql', graphqlKoa({ schema }));
 router.get('/graphql', graphqlKoa({ schema }));
 
+// Define endpoint for GraphQL Playground
+router.all(
+  '/playground',
+  koaPlayground({
+    endpoint: '/graphql'
+  }),
+);
+
 // Define GraphiQL endpoints
 if (NODE_ENV !== "production") {
   router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }));
@@ -42,7 +53,7 @@ graphQLServer.use(router.routes());
 graphQLServer.use(router.allowedMethods());
 
 graphQLServer.listen(PORT, () => {
-  console.log(`GraphiQL is now running on http://localhost:${PORT}/graphiql`)
+  console.log(`GraphQL Playground is now running on http://localhost:${PORT}/playground`)
 });
 
 // Add some seed data to MongoDB database
