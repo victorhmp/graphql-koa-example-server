@@ -6,8 +6,14 @@ type Query {
   getFortuneCookie: String
 }
 
+type Mutation {
+  createUser(firstName: String!, lastName: String!, nickname: String, email: String!): User,
+  createTodo(title: String, description: String): Todo,
+  completeTodo(title: String!): Todo
+}
+
 type User {
-  id: Int,
+  id: ID!,
   firstName: String!,
   lastName: String!,
   nickname: String,
@@ -15,7 +21,7 @@ type User {
 }
 
 type Todo {
-  id: Int,
+  id: ID!,
   title: String,
   description: String,
   completed: Boolean,
