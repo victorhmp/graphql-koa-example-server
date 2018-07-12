@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
-const UserModel = require('../models/user');
-const TodoModel = require('../models/todo');
+const UserModel = require('../mongodb/models/user');
+const TodoModel = require('../mongodb/models/todo');
 
 const FortuneCookie = {
   getOne() {

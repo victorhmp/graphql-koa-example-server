@@ -19,7 +19,7 @@ import { importSchema } from 'graphql-import';
 const typeDefs = importSchema('./graphql/schema.graphql');
 
 // MongoDB
-const mongoose = require('./config/mongoose');
+const mongoose = require('./mongodb/config/mongoose');
 mongoose();
 
 const PORT = process.env.PORT || 8080;
@@ -77,4 +77,4 @@ graphQLServer.listen(PORT, () => {
 });
 
 // Add some seed data to MongoDB database
-require('./models/seeds');
+require('./mongodb/models/seeds');
