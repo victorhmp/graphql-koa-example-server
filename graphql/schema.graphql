@@ -1,16 +1,24 @@
-const typeDefs = `
+# import Post from './generated/prisma.graphql'
+# import Person from './generated/prisma.graphql'
+
 type Query {
   user(firstName: String, lastName: String): User,
   allUsers: [User],
   allTodos: [Todo],
   getFortuneCookie: String,
-  getTodosByOwnerName(owner: String!): [Todo]
+  getTodosByOwnerName(owner: String!): [Todo],
+  posts(searchString: String): [Post!]!
+  person(id: ID!): Person
 }
 
 type Mutation {
   createUser(firstName: String!, lastName: String!, nickname: String, email: String!): User,
   createTodo(title: String, description: String): Todo,
-  completeTodo(title: String!): Todo
+  completeTodo(title: String!): Todo,
+  createDraft(authorId: ID!, title: String!, content: String!): Post
+  publish(id: ID!): Post
+  deletePost(id: ID!): Post
+  signup(name: String!): Person!
 }
 
 type User {
@@ -29,6 +37,3 @@ type Todo {
   completed: Boolean,
   owner: String!
 }
-`
-
-export default typeDefs;

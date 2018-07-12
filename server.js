@@ -6,13 +6,17 @@ import KoaBodyParser from "koa-bodyparser";
 // Apollo Server for Koa
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
 
+// Prisma
+import { Prisma } from 'prisma-binding';
+
 // GraphQL Playground Middleware for Koa
 const koaPlayground = require('graphql-playground-middleware-koa').default
 
 // Schema and Resolvers
 import { makeExecutableSchema } from "graphql-tools";
-import Schema from './graphql/schema';
 import Resolvers from './graphql/resolvers';
+import { importSchema } from 'graphql-import';
+const typeDefs = importSchema('./graphql/schema.graphql');
 
 // MongoDB
 const mongoose = require('./config/mongoose');
@@ -26,14 +30,18 @@ const router = new KoaRouter();
 const bodyParser = new KoaBodyParser();
 
 // Validate GraphQL API Schema
-const schema = makeExecutableSchema({ typeDefs: Schema, resolvers: Resolvers });
+const schema = makeExecutableSchema({ typeDefs, resolvers: Resolvers });
 
 // Use bodyparser middleware
 graphQLServer.use(bodyParser);
 
 // Define GraphQL endpoints
-router.post('/graphql', graphqlKoa({ schema }));
-router.get('/graphql', graphqlKoa({ schema }));
+router.post('/graphql', graphqlKoa({ 
+  schema
+}));
+router.get('/graphql', graphqlKoa({ 
+  schema
+}));
 
 // Define endpoint for GraphQL Playground
 router.all(
