@@ -28,7 +28,30 @@ const resolvers = {
     },
     getTodosByOwnerName: async (_, args) => {
       return (await TodoModel.find({ owner: args.owner }).exec());
-    }
+    },
+    posts: (_, args, context, info) => {
+      return context.prisma.query.posts(
+        {
+          where: {
+            OR: [
+              { title_contains: args.searchString },
+              { content_contains: args.searchString },
+            ],
+          },
+        },
+        info,
+      )
+    },
+    person: (_, args, context, info) => {
+      return context.prisma.query.person(
+        {
+          where: {
+            id: args.id,
+          },
+        },
+        info,
+      )
+    },
   },
   Mutation: {
     createUser: async (_, args) => {
@@ -52,8 +75,57 @@ const resolvers = {
       return (await TodoModel.findOneAndUpdate(
         { title: args.title }, { $set: { completed: true } }
       ));
-    }
-  }
+    },
+    createDraft: (_, args, context, info) => {
+      return context.prisma.mutation.createPost(
+        {
+          data: {
+            title: args.title,
+            content: args.title,
+            author: {
+              connect: {
+                id: args.authorId,
+              },
+            },
+          },
+        },
+        info,
+      )
+    },
+    publish: (_, args, context, info) => {
+      return context.prisma.mutation.updatePost(
+        {
+          where: {
+            id: args.id,
+          },
+          data: {
+            published: true,
+          },
+        },
+        info,
+      )
+    },
+    deletePost: (_, args, context, info) => {
+      return context.prisma.mutation.deletePost(
+        {
+          where: {
+            id: args.id,
+          },
+        },
+        info,
+      )
+    },
+    signup: (_, args, context, info) => {
+      return context.prisma.mutation.createPerson(
+        {
+          data: {
+            name: args.name,
+          },
+        },
+        info,
+      )
+    },
+  },
 }
 
 export default resolvers;
