@@ -1,3 +1,8 @@
+# Dependencies
 node_modules/
 
+# Logs
+*.log
+
+# MongoDB Data
 data/
