@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV || "development",
 
 module.exports = function() {
   mongoose.Promise = global.Promise;
-  let db = mongoose.connect(config.db);
+  let db = mongoose.connect(config.db, {useNewUrlParser: true});
   mongoose.connection
     .on("error", function(err) {
       console.log(
