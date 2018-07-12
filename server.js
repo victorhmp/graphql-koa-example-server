@@ -30,7 +30,13 @@ const router = new KoaRouter();
 const bodyParser = new KoaBodyParser();
 
 // Validate GraphQL API Schema
-const schema = makeExecutableSchema({ typeDefs, resolvers: Resolvers });
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers: Resolvers,
+  resolverValidationOptions: {
+    requireResolversForResolveType: false
+  }
+});
 
 // Use bodyparser middleware
 graphQLServer.use(bodyParser);
