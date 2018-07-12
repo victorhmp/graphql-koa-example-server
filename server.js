@@ -37,10 +37,22 @@ graphQLServer.use(bodyParser);
 
 // Define GraphQL endpoints
 router.post('/graphql', graphqlKoa({ 
-  schema
+  schema,
+  context: () => ({
+    prisma: new Prisma({
+      typeDefs: 'graphql/generated/prisma.graphql',
+      endpoint: 'http://prisma:4466',
+    }),
+  })
 }));
 router.get('/graphql', graphqlKoa({ 
-  schema
+  schema,
+  context: () => ({
+    prisma: new Prisma({
+      typeDefs: 'graphql/generated/prisma.graphql',
+      endpoint: 'http://prisma:4466',
+    }),
+  })
 }));
 
 // Define endpoint for GraphQL Playground
