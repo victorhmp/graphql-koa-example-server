@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const todoSchema = new Schema({
   title: {
     type: String,
     required: true,
-    default: 'untitled'
+    default: "untitled"
   },
   description: {
     type: String,
@@ -18,9 +18,9 @@ const todoSchema = new Schema({
   },
   owner: {
     type: String,
-    required: true,
+    required: true
   }
 });
-const Model = mongoose.model('Todo', todoSchema);
+const Model = mongoose.model("Todo", todoSchema);
 
 module.exports = Model;

@@ -1,32 +1,32 @@
-const userModel = require('./user');
-const todoModel = require('./todo');
+const userModel = require("./user");
+const todoModel = require("./todo");
 
 userModel.remove().exec();
 todoModel.remove().exec();
 
 let user1 = new userModel({
-  firstName: 'Victor',
-  lastName: 'Pinto',
-  email: 'victor2142@gmail.com',
-  nickname: 'VH'
+  firstName: "Victor",
+  lastName: "Pinto",
+  email: "victor2142@gmail.com",
+  nickname: "VH"
 });
 let user2 = new userModel({
-  firstName: 'HR',
-  lastName: 'Wells',
-  email: 'hr@gmail.com',
-  nickname: 'HR'
+  firstName: "HR",
+  lastName: "Wells",
+  email: "hr@gmail.com",
+  nickname: "HR"
 });
 let user3 = new userModel({
-  firstName: 'Bartholomel',
-  lastName: 'Allan',
-  email: 'berrytheflash@gmail.com',
-  nickname: 'The Flash'
+  firstName: "Bartholomel",
+  lastName: "Allan",
+  email: "berrytheflash@gmail.com",
+  nickname: "The Flash"
 });
 let user4 = new userModel({
-  firstName: 'Jennifer',
-  lastName: 'Wells',
-  email: 'jen@gmail.com',
-  nickname: 'Jen'
+  firstName: "Jennifer",
+  lastName: "Wells",
+  email: "jen@gmail.com",
+  nickname: "Jen"
 });
 
 user1.save();

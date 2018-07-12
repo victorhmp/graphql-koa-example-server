@@ -1,33 +1,36 @@
-import fetch from 'node-fetch';
-const UserModel = require('../mongodb/models/user');
-const TodoModel = require('../mongodb/models/todo');
+const fetch = require("node-fetch");
+const UserModel = require("../mongodb/models/user");
+const TodoModel = require("../mongodb/models/todo");
 
 const FortuneCookie = {
   getOne() {
-    return fetch('http://fortunecookieapi.herokuapp.com/v1/cookie')
+    return fetch("http://fortunecookieapi.herokuapp.com/v1/cookie")
       .then(res => res.json())
       .then(res => {
         return res[0].fortune.message;
       });
-  },
+  }
 };
 
 const resolvers = {
   Query: {
     allUsers: async () => {
-      return (await UserModel.find().exec());
+      return await UserModel.find().exec();
     },
     user: async (_, args) => {
-      return (await UserModel.findOne({ firstName: args.firstName, lastName: args.lastName}).exec());
+      return await UserModel.findOne({
+        firstName: args.firstName,
+        lastName: args.lastName
+      }).exec();
     },
     getFortuneCookie() {
       return FortuneCookie.getOne();
     },
     allTodos: async () => {
-      return (await TodoModel.find().exec());
+      return await TodoModel.find().exec();
     },
     getTodosByOwnerName: async (_, args) => {
-      return (await TodoModel.find({ owner: args.owner }).exec());
+      return await TodoModel.find({ owner: args.owner }).exec();
     },
     posts: (_, args, context, info) => {
       return context.prisma.query.posts(
@@ -35,23 +38,23 @@ const resolvers = {
           where: {
             OR: [
               { title_contains: args.searchString },
-              { content_contains: args.searchString },
-            ],
-          },
+              { content_contains: args.searchString }
+            ]
+          }
         },
-        info,
-      )
+        info
+      );
     },
     person: (_, args, context, info) => {
       return context.prisma.query.person(
         {
           where: {
-            id: args.id,
-          },
+            id: args.id
+          }
         },
-        info,
-      )
-    },
+        info
+      );
+    }
   },
   Mutation: {
     createUser: async (_, args) => {
@@ -59,9 +62,9 @@ const resolvers = {
         firstName: args.firstName,
         lastName: args.lastName,
         nickname: args.nickname,
-        email: args.email,
+        email: args.email
       });
-      return (await user.save());
+      return await user.save();
     },
     createTodo: async (_, args) => {
       let todo = new TodoModel({
@@ -69,12 +72,13 @@ const resolvers = {
         description: args.description,
         owner: args.owner
       });
-      return (await todo.save());
+      return await todo.save();
     },
     completeTodo: async (_, args) => {
-      return (await TodoModel.findOneAndUpdate(
-        { title: args.title }, { $set: { completed: true } }
-      ));
+      return await TodoModel.findOneAndUpdate(
+        { title: args.title },
+        { $set: { completed: true } }
+      );
     },
     createDraft: (_, args, context, info) => {
       return context.prisma.mutation.createPost(
@@ -84,48 +88,48 @@ const resolvers = {
             content: args.title,
             author: {
               connect: {
-                id: args.authorId,
-              },
-            },
-          },
+                id: args.authorId
+              }
+            }
+          }
         },
-        info,
-      )
+        info
+      );
     },
     publish: (_, args, context, info) => {
       return context.prisma.mutation.updatePost(
         {
           where: {
-            id: args.id,
+            id: args.id
           },
           data: {
-            published: true,
-          },
+            published: true
+          }
         },
-        info,
-      )
+        info
+      );
     },
     deletePost: (_, args, context, info) => {
       return context.prisma.mutation.deletePost(
         {
           where: {
-            id: args.id,
-          },
+            id: args.id
+          }
         },
-        info,
-      )
+        info
+      );
     },
     signup: (_, args, context, info) => {
       return context.prisma.mutation.createPerson(
         {
           data: {
-            name: args.name,
-          },
+            name: args.name
+          }
         },
-        info,
-      )
-    },
-  },
-}
+        info
+      );
+    }
+  }
+};
 
 export default resolvers;

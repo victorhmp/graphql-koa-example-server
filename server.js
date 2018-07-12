@@ -4,22 +4,22 @@ import KoaRouter from "koa-router";
 import KoaBodyParser from "koa-bodyparser";
 
 // Apollo Server for Koa
-import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
+import { graphqlKoa, graphiqlKoa } from "apollo-server-koa";
 
 // Prisma
-import { Prisma } from 'prisma-binding';
+import { Prisma } from "prisma-binding";
 
 // GraphQL Playground Middleware for Koa
-const koaPlayground = require('graphql-playground-middleware-koa').default
+const koaPlayground = require("graphql-playground-middleware-koa").default;
 
 // Schema and Resolvers
 import { makeExecutableSchema } from "graphql-tools";
-import Resolvers from './graphql/resolvers';
-import { importSchema } from 'graphql-import';
-const typeDefs = importSchema('./graphql/schema.graphql');
+import Resolvers from "./graphql/resolvers";
+import { importSchema } from "graphql-import";
+const typeDefs = importSchema("./graphql/schema.graphql");
 
 // MongoDB
-const mongoose = require('./mongodb/config/mongoose');
+const mongoose = require("./mongodb/config/mongoose");
 mongoose();
 
 const PORT = process.env.PORT || 8080;
@@ -36,36 +36,42 @@ const schema = makeExecutableSchema({ typeDefs, resolvers: Resolvers });
 graphQLServer.use(bodyParser);
 
 // Define GraphQL endpoints
-router.post('/graphql', graphqlKoa({ 
-  schema,
-  context: () => ({
-    prisma: new Prisma({
-      typeDefs: 'graphql/generated/prisma.graphql',
-      endpoint: 'http://prisma:4466',
-    }),
+router.post(
+  "/graphql",
+  graphqlKoa({
+    schema,
+    context: () => ({
+      prisma: new Prisma({
+        typeDefs: "graphql/generated/prisma.graphql",
+        endpoint: "http://prisma:4466"
+      })
+    })
   })
-}));
-router.get('/graphql', graphqlKoa({ 
-  schema,
-  context: () => ({
-    prisma: new Prisma({
-      typeDefs: 'graphql/generated/prisma.graphql',
-      endpoint: 'http://prisma:4466',
-    }),
+);
+router.get(
+  "/graphql",
+  graphqlKoa({
+    schema,
+    context: () => ({
+      prisma: new Prisma({
+        typeDefs: "graphql/generated/prisma.graphql",
+        endpoint: "http://prisma:4466"
+      })
+    })
   })
-}));
+);
 
 // Define endpoint for GraphQL Playground
 router.all(
-  '/playground',
+  "/playground",
   koaPlayground({
-    endpoint: '/graphql'
-  }),
+    endpoint: "/graphql"
+  })
 );
 
 // Define GraphiQL endpoints
 if (NODE_ENV !== "production") {
-  router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }));
+  router.get("/graphiql", graphiqlKoa({ endpointURL: "/graphql" }));
 }
 
 // Use router middleware
@@ -73,8 +79,10 @@ graphQLServer.use(router.routes());
 graphQLServer.use(router.allowedMethods());
 
 graphQLServer.listen(PORT, () => {
-  console.log(`GraphQL Playground is now running on http://localhost:${PORT}/playground`)
+  console.log(
+    `GraphQL Playground is now running on http://localhost:${PORT}/playground`
+  );
 });
 
 // Add some seed data to MongoDB database
-require('./mongodb/models/seeds');
+require("./mongodb/models/seeds");
