@@ -35,7 +35,7 @@ services:
             password: prisma
             migrations: true
   postgres:
-    image: postgres
+    image: 'postgres:10.1-alpine'
     restart: always
     environment:
       POSTGRES_USER: prisma
