@@ -42,7 +42,7 @@
       "html"
     ],
     "moduleNameMapper": {
-      "^mongoose$": "<rootDir>/node_modules/mongoose"
+      "^mongoose$": "/usr/src/server/node_modules/mongoose"
     }
   },
   "babel": {
