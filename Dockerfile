@@ -1,4 +1,4 @@
-FROM node:9.11-alpine AS base
+FROM node:10.6-alpine AS base
 
 ENV SERVER_PATH=/usr/src/server
 
